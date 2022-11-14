@@ -1,0 +1,6 @@
+[Unit]
+Description=movie socket
+[Socket]
+ListenStream=/run/movie.sock
+[Install]
+WantedBy=sockets.target

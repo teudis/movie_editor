@@ -1,0 +1,17 @@
+[Unit]
+Description=movie daemon
+Requires=movie.socket
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/var/www/html/movie
+ExecStart=/home/teudis/entorno/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/movie.sock \
+          video_editor.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
