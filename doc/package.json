@@ -1,0 +1,32 @@
+
+
+{
+    "timeline": {
+        "tracks": [
+            {
+                "clips": [
+                   {
+                       // place an image at the very start of the track/timeline that plays for 4 seconds.
+                       "asset":{
+                           "type": "image",
+                           "src": "https://s3-ap-southeast-2.amazonaws.com/my-bucket/photo.jpg",
+                       },
+                       "start": 0,
+                       "length": 4
+                    },
+                    {
+                        // place a video that starts on the fourth second of the track/timeline that has
+                        // the first two seconds (in: 2) trimmed and plays for 4 seconds (out: 6).
+                       "asset":{
+                           "type": "video",
+                           "src": "https://s3-ap-southeast-2.amazonaws.com/my-bucket/footage.mp4",
+                           "trim": 2
+                       },
+                       "start": 4,
+                       "length": 6
+                    }
+                ]
+            },
+        ]
+    },
+}

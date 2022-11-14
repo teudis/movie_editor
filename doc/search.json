@@ -1,0 +1,89 @@
+/* Una edicion consta de dos partes
+1. La linea de tiempo "timeline" que contiene ue describe los activos ( videos, imágenes y títulos ) que desea usar
+   y cómo se organizan ( editados )
+2. el formato de salida ( gif o mp4 ) y resolución ( HD, SD, móvil, etc. )
+*/
+{
+    "timeline": {...},   // the main video edit description
+    "output": {...}      // the output format and resolution
+}
+
+
+
+/* Una línea de tiempo se compone de pistas que son como capas que contienen clips. */
+{
+    "timeline": {
+        "tracks": [{...}]   // array of tracks
+    },
+    ...
+}
+
+{
+    "timeline": {
+        "tracks": [
+            {
+                ...   // top track
+            },
+            {
+                ...   // bottom track
+            }
+        ]
+    },
+    ...
+}
+
+/*
+Cada tipo de activo tiene un conjunto específico de opciones y características, pero debe especificar el tipo de activo
+y también el contenido del activo, como una URL src a un archivo de video o imagen o para títulos, una cadena de texto .
+*/
+
+{
+    "timeline": {
+        "tracks": [
+            {
+                "clips": [
+                   {
+                       // place an image at the very start of the track/timeline that plays for 4 seconds.
+                       "asset":{
+                           "type": "image",
+                           "src": "https://s3-ap-southeast-2.amazonaws.com/my-bucket/photo.jpg",
+                       },
+                       "start": 0,
+                       "length": 4
+                    },
+                    {
+                        // place a video that starts on the fourth second of the track/timeline that has
+                        // the first two seconds (in: 2) trimmed and plays for 4 seconds (out: 6).
+                       "asset":{
+                           "type": "video",
+                           "src": "https://s3-ap-southeast-2.amazonaws.com/my-bucket/footage.mp4",
+                           "trim": 2
+                       },
+                       "start": 4,
+                       "length": 6
+                    }
+                ]
+            },
+        ]
+    },
+}
+
+/* Un clip también puede tener transiciones, efectos y filtros aplicados. Un clip puede verse así cuando se aplican
+*/ todas las opciones:
+
+{
+    "asset":{
+        "type": "video",
+        "src": "https://s3-ap-southeast-2.amazonaws.com/my-bucket/footage.mp4",
+        "trim": 2,
+        "volume": 0.5
+    },
+    "start": 0,
+    "length": 4,
+    "transition": {
+        "in": "fade",
+        "out": "fade"
+    },
+    "filter": "boost",
+    "effect": "slideRight"
+}
