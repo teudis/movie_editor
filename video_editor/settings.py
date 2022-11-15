@@ -22,7 +22,6 @@ env = environ.Env()
 environ.Env.read_env()
 
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -48,10 +47,12 @@ INSTALLED_APPS = [
 
     # 3rd Apps
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_yasg',
 
     # My apps
-    'editor',
+    'apps.users',
+    'apps.editor',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,23 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'apps.users.authentication.ExternTokenAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}
