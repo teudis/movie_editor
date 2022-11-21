@@ -5,7 +5,7 @@ from rest_framework import authentication
 from rest_framework import exceptions
 
 # endpoint to get the users type SYSTEM from external api
-from apps.users.models import InteractionUser
+from apps.users.models import UserProfile
 
 SYSTEM_USER_DATA_ENDPOINT = "https://dev-wbe.watchity.net/rest-auth/user/"
 
@@ -53,14 +53,13 @@ class ExternTokenAuthentication(authentication.BaseAuthentication):
                             user.email = user_data.get('email')
                             user.save()
                             try:
-                                interaction_user = InteractionUser.objects.get(user=user)
-                                interaction_user.screen_name = user_data.get('screen_name')
-                                interaction_user.save()
-                            except InteractionUser.DoesNotExist:
-                                InteractionUser.objects.create(user=user,
-                                                               screen_name=user_data.get('screen_name'),
-                                                               type='SYSTEM',
-                                                               )
+                                user_profile = UserProfile.objects.get(user=user)
+                                user_profile.screen_name = user_data.get('screen_name')
+                                user_profile.save()
+                            except UserProfile.DoesNotExist:
+                                UserProfile.objects.create(user=user,
+                                                           screen_name=user_data.get('screen_name'),
+                                                           )
                             return user, None
                     else:
                         raise exceptions.AuthenticationFailed()

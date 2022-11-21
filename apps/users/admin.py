@@ -3,9 +3,9 @@ from django.contrib import admin
 from apps.users import models
 
 # Register your models here.
-from apps.users.models import InteractionUser
+from apps.users.models import UserProfile
 
 
-@admin.register(InteractionUser)
+@admin.register(UserProfile)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('user', 'screen_name', 'type')
+    list_display = ('user', 'screen_name', )

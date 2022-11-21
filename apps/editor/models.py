@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django.conf import settings
 
-from apps.users.models import InteractionUser
+from apps.users.models import UserProfile
 
 User = settings.AUTH_USER_MODEL
 
@@ -22,17 +22,16 @@ class VideoProject(models.Model):
     organization_uuid = models.UUIDField(_('organization identifier'))
     status = models.CharField(_('status'), max_length=10, choices=PROJECT_STATUS_CHOICES)
 
-    created_by = models.ForeignKey(InteractionUser, on_delete=models.CASCADE, related_name='video_projects')
+    created_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='video_projects')
     created_date = models.DateTimeField(_('created'), auto_now_add=True)
 
-    last_modified_by = models.ForeignKey(InteractionUser, on_delete=models.CASCADE, blank=True, null=True, default=None)
+    last_modified_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True, null=True, default=None)
     last_modified_date = models.DateTimeField(_('updated'), auto_now=True)
 
     class Meta:
         verbose_name = _('video project')
         verbose_name_plural = _('video projects')
         ordering = ('-created_date', )
-
 
     def __str__(self):
         return self.title
@@ -43,10 +42,10 @@ class Track(models.Model):
     name = models.CharField(_('name'), max_length=255, null=True, blank=True)
     position = models.PositiveIntegerField(_('position'))
 
-    created_by = models.ForeignKey(InteractionUser, on_delete=models.CASCADE, related_name='tracks')
+    created_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='tracks')
     created_date = models.DateTimeField(_('created'), auto_now_add=True)
 
-    last_modified_by = models.ForeignKey(InteractionUser, on_delete=models.CASCADE)
+    last_modified_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     last_modified_date = models.DateTimeField(_('updated'), auto_now=True)
 
     def __str__(self):

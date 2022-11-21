@@ -10,13 +10,12 @@ EXTERNAL_USERS_CHOICES = (
 )
 
 
-class InteractionUser(models.Model):
+class UserProfile(models.Model):
     """
-    User model for interactions users.
+    User model for profile users.
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     screen_name = models.CharField(_('screen name'), max_length=255)
-    type = models.CharField(_('users type'), max_length=20, choices=EXTERNAL_USERS_CHOICES)
 
     def __str__(self):
         return self.user.__str__()

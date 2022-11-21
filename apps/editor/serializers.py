@@ -1,10 +1,24 @@
 from rest_framework.serializers import ModelSerializer
 
 from apps.editor.models import VideoProject, Track
-from apps.users.serializers import InteractionUserSerializer
+from apps.users.serializers import UserProfileSerializer
 
 
 class VideoProjectSerializer(ModelSerializer):
+    created_by = UserProfileSerializer(read_only=True)
+    last_modified_by = UserProfileSerializer(read_only=True)
+
+    class Meta:
+        model = VideoProject
+        fields = '__all__'
+        # fields = ('title', 'organization_uuid', 'status', )
+        read_only_fields = ('created_by', 'last_modified_by', )
+        # extra_kwargs = {
+        #     'created_by': {'read_only': True},
+        #     # 'created_date': {'read_only': True},
+        #     'last_modified_by': {'read_only': True},
+        #     # 'last_modified_date': {'read_only': True},
+        # }
 
     def create(self, validated_data):
         created_by = self.context.get('request').user.interactionuser
@@ -22,23 +36,10 @@ class VideoProjectSerializer(ModelSerializer):
         validated_data['last_modified_by'] = last_modified_by
         return super().update(instance, validated_data)
 
-    class Meta:
-        model = VideoProject
-        fields = "__all__"
-        extra_kwargs = {
-            'created_by': {'read_only': True},
-            'created_date': {'read_only': True},
-            'last_modified_by': {'read_only': True},
-            'last_modified_date': {'read_only': True},
-        }
-
-
-class VideoProjectDetailSerializer(VideoProjectSerializer):
-    created_by = InteractionUserSerializer(read_only=True)
-    last_modified_by = InteractionUserSerializer(read_only=True)
-
 
 class TrackSerializer(ModelSerializer):
+    created_by = UserProfileSerializer(read_only=True)
+    last_modified_by = UserProfileSerializer(read_only=True)
 
     class Meta:
         model = Track
@@ -67,6 +68,3 @@ class TrackSerializer(ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class TrackDetailsSerializer(TrackSerializer):
-    created_by = InteractionUserSerializer(read_only=True)
-    last_modified_by = InteractionUserSerializer(read_only=True)
