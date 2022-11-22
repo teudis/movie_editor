@@ -20,7 +20,7 @@ PROJECT_STATUS_CHOICES = (
 class VideoProject(models.Model):
     title = models.CharField(_('title'), max_length=255)
     organization_uuid = models.UUIDField(_('organization identifier'))
-    status = models.CharField(_('status'), max_length=10, choices=PROJECT_STATUS_CHOICES)
+    status = models.CharField(_('status'), max_length=10, choices=PROJECT_STATUS_CHOICES, default='EDITING')
 
     created_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='video_projects')
     created_date = models.DateTimeField(_('created'), auto_now_add=True)

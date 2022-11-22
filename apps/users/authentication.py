@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 
 import requests
+from drf_spectacular.extensions import OpenApiAuthenticationExtension
+from drf_spectacular.plumbing import build_bearer_security_scheme_object
 from rest_framework import authentication
 from rest_framework import exceptions
 
@@ -10,7 +12,7 @@ from apps.users.models import UserProfile
 SYSTEM_USER_DATA_ENDPOINT = "https://dev-wbe.watchity.net/rest-auth/user/"
 
 
-class ExternTokenAuthentication(authentication.BaseAuthentication):
+class ExternTokenAuthentication(authentication.TokenAuthentication):
     """"
     Custom Authentication method that use an url (SYSTEM_USER_DATA_ENDPOINT) to obtain users data sending a token
     provided in header of request.
